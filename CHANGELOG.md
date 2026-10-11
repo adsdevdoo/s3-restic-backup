@@ -7,6 +7,8 @@ on (settings, data layout, metric names).
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-10-11
+
 ### Fixed
 - Grafana dashboard: the stats at the top show the current value. Over the 7-day range they stepped ~30 minutes
   and showed "No data" for metrics younger than a step (a new source, the first runs).
@@ -29,5 +31,6 @@ First release.
 - Offline tests (`tests/test.sh`) against a stub rclone and against `rclone serve s3`; images for amd64 and arm64
   on ghcr.io.
 
-[Unreleased]: https://github.com/adsdevdoo/s3-restic-backup/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/adsdevdoo/s3-restic-backup/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/adsdevdoo/s3-restic-backup/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/adsdevdoo/s3-restic-backup/releases/tag/v1.0.0

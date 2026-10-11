@@ -7,6 +7,10 @@ on (settings, data layout, metric names).
 
 ## [Unreleased]
 
+### Fixed
+- Grafana dashboard: the stats at the top show the current value. Over the 7-day range they stepped ~30 minutes
+  and showed "No data" for metrics younger than a step (a new source, the first runs).
+
 ## [1.0.0] - 2026-10-11
 
 First release.

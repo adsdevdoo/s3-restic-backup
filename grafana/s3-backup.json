@@ -88,12 +88,14 @@
      },
      "expr": "count(max by (source) (s3_backup_last_success_timestamp_seconds{source=~\"$source\"}) or max by (source) (s3_backup_last_failure_timestamp_seconds{source=~\"$source\"}))",
      "legendFormat": "",
-     "refId": "D"
+     "refId": "D",
+     "instant": true,
+     "range": false
     }
    ],
    "options": {
     "colorMode": "value",
-    "graphMode": "area",
+    "graphMode": "none",
     "justifyMode": "center",
     "textMode": "auto",
     "reduceOptions": {
@@ -146,12 +148,14 @@
      },
      "expr": "sum(((max by (source) (s3_backup_last_failure_timestamp_seconds{source=~\"$source\"}) > bool max by (source) (s3_backup_last_success_timestamp_seconds{source=~\"$source\"})) or (max by (source) (s3_backup_last_failure_timestamp_seconds{source=~\"$source\"}) * 0 + 1) or (max by (source) (s3_backup_last_success_timestamp_seconds{source=~\"$source\"}) * 0))) or vector(0)",
      "legendFormat": "",
-     "refId": "F"
+     "refId": "F",
+     "instant": true,
+     "range": false
     }
    ],
    "options": {
     "colorMode": "background",
-    "graphMode": "area",
+    "graphMode": "none",
     "justifyMode": "center",
     "textMode": "auto",
     "reduceOptions": {
@@ -208,12 +212,14 @@
      },
      "expr": "max((time() - max by (source) (s3_backup_last_success_timestamp_seconds{source=~\"$source\"})) / 3600)",
      "legendFormat": "",
-     "refId": "H"
+     "refId": "H",
+     "instant": true,
+     "range": false
     }
    ],
    "options": {
     "colorMode": "background",
-    "graphMode": "area",
+    "graphMode": "none",
     "justifyMode": "center",
     "textMode": "auto",
     "reduceOptions": {
@@ -271,12 +277,14 @@
      },
      "expr": "max(s3_backup_repository_bytes)",
      "legendFormat": "",
-     "refId": "J"
+     "refId": "J",
+     "instant": true,
+     "range": false
     }
    ],
    "options": {
     "colorMode": "value",
-    "graphMode": "area",
+    "graphMode": "none",
     "justifyMode": "center",
     "textMode": "auto",
     "reduceOptions": {
@@ -329,12 +337,14 @@
      },
      "expr": "(time() - max(s3_backup_copy_last_success_timestamp_seconds)) / 3600",
      "legendFormat": "",
-     "refId": "L"
+     "refId": "L",
+     "instant": true,
+     "range": false
     }
    ],
    "options": {
     "colorMode": "background",
-    "graphMode": "area",
+    "graphMode": "none",
     "justifyMode": "center",
     "textMode": "auto",
     "reduceOptions": {
@@ -393,12 +403,14 @@
      },
      "expr": "(max(s3_backup_copy_last_failure_timestamp_seconds) > bool (max(s3_backup_copy_last_success_timestamp_seconds) or vector(0))) or vector(0)",
      "legendFormat": "",
-     "refId": "N"
+     "refId": "N",
+     "instant": true,
+     "range": false
     }
    ],
    "options": {
     "colorMode": "background",
-    "graphMode": "area",
+    "graphMode": "none",
     "justifyMode": "center",
     "textMode": "auto",
     "reduceOptions": {

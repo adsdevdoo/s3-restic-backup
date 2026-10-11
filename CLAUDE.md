@@ -29,8 +29,8 @@ the image) before fixing a "could happen": hypotheses are not bugs.
   pushes to `ghcr.io/adsdevdoo/s3-restic-backup` and, when the repository variable `DOCKERHUB_USERNAME` and the
   secret `DOCKERHUB_TOKEN` are set, to Docker Hub. Tags: `X.Y.Z`, `X.Y`, `X` and `latest` for a release, `edge` for
   `main`, `sha-<short>` and the full SHA for every build.
-- A new ghcr package starts private: after its first push the org owner sets it to Public (package settings →
-  Change visibility) once.
+- The ghcr package of this public repository came out public on its first push (it inherits the repository's
+  access). If a fork's package starts private, set it to Public once (package settings → Change visibility).
 - **A release** (with the maintainer's OK): move the `[Unreleased]` items of `CHANGELOG.md` under a new
   `## [X.Y.Z] - date` heading and fix the links at the bottom, commit, then tag that commit `vX.Y.Z` and push the
   tag. CI builds the release images and creates the GitHub Release from that CHANGELOG section (it fails if the

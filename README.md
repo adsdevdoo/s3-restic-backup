@@ -33,7 +33,7 @@ saves traffic: each run downloads only new and changed objects.
 - **Cheap runs.** Only new and changed objects are downloaded, compared by the listing, without a request per
   object.
 - **Keys stay secret.** Never on a command line, masked in rclone's logs; flags that would print them are refused.
-- **Off-host copy** to a second machine over SSH, with a key that can only add files.
+- **Off-host copy** to a second machine over SSH, with a key that can only add files (rrsync).
 - **Metrics and a Grafana dashboard** per source.
 - **One container**, amd64 and arm64, settings in `.env`.
 
@@ -213,12 +213,19 @@ right in the rrsync directory.
 On the target, restrict the key to adding files in one directory, with `rrsync` from the rsync package:
 
 ```
-restrict,from="10.0.0.5",command="/usr/bin/rrsync -wo -no-del /srv/s3-backup-copy" ssh-ed25519 AAAA… s3-backup
+restrict,from="10.0.0.5",command="/usr/bin/rrsync -wo -no-del -no-overwrite -munge /srv/s3-backup-copy" ssh-ed25519 AAAA… s3-backup
 ```
+
+- `-munge` is what keeps the key inside the directory: without it a compromised backup host can upload a symbolic
+  link and write through it outside the directory, e.g. into the user's `~/.ssh`, and get a shell on the target
+  (rsync older than 3.5 lets it). Keep it.
+- `-no-del` blocks deletion, `-no-overwrite` overwriting a file that is there. `-no-overwrite` needs rsync 3.3 or
+  newer on the target; with an older one (Debian 12, Ubuntu 24.04) use `-wo -no-del -munge`, and protect the
+  received files with `chattr +i` if a compromised backup host must not be able to spoil the copy.
 
 Repository files never change once written, so adding the new ones keeps the copy a valid restic repository. It is
 a superset: snapshots pruned locally stay there. Nothing prunes the copy, so pick the snapshot by date when you
-restore from it. `-no-del` blocks deletion, not overwriting; use `chattr +i` on the target if that matters.
+restore from it.
 
 A failed copy doesn't fail the run. It has its own metric (below).
 

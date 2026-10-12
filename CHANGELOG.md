@@ -12,6 +12,9 @@ on (settings, data layout, metric names).
   compromised backup host can upload a symbolic link, write through it outside the directory (e.g. the user's
   `~/.ssh`) and get a shell on the target. Now `-wo -no-del -no-overwrite -munge`, or `-wo -no-del -munge` with
   rsync older than 3.3; add `-munge` to an existing line.
+- README: a container with bad settings exits and is started again by Docker, it doesn't stay stopped; the example
+  copy user is no longer `backup` (a system user on Debian and Ubuntu); rrsync is a package of its own on Alpine and
+  needs python3, which a minimal Debian or Ubuntu may lack.
 
 ## [1.0.1] - 2026-10-11
 

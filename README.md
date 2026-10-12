@@ -113,9 +113,9 @@ docker exec s3-backup backup.sh init
 
 **Save `secrets/restic_password` in your password manager.** Without it the snapshots can't be opened.
 
-The container checks the settings and the key files when it starts and stops if something is wrong:
-`docker logs s3-backup` says what. To run every source now instead of waiting for the schedule, detached from your
-shell, with the output going to `docker logs`:
+The container checks the settings and the key files when it starts and exits if something is wrong (and Docker
+starts it again, and again): `docker logs s3-backup` says what. To run every source now instead of waiting for the
+schedule, detached from your shell, with the output going to `docker logs`:
 
 ```sh
 docker exec -d s3-backup sh -c 'backup.sh >/proc/1/fd/1 2>&1'
@@ -207,10 +207,11 @@ ssh-keyscan -p 22 -t ed25519 backup-host.example > secrets/copy_known_hosts    #
 ssh-keygen -lf secrets/copy_known_hosts     # compare with the fingerprint shown on the target
 ```
 
-With the rrsync line below, use an empty path: `COPY_TARGET=backup@backup-host.example:`. The files then land
-right in the rrsync directory.
+With the rrsync line below, use an empty path: `COPY_TARGET=bkcopy@backup-host.example:` (a user of its own; not
+`backup`, a system user on Debian and Ubuntu). The files then land right in the rrsync directory.
 
-On the target, restrict the key to adding files in one directory, with `rrsync` from the rsync package:
+On the target, restrict the key to adding files in one directory, with `rrsync` (it comes with rsync on Debian and
+Ubuntu and needs python3, which a minimal system may lack; on Alpine `apk add rrsync`):
 
 ```
 restrict,from="10.0.0.5",command="/usr/bin/rrsync -wo -no-del -no-overwrite -munge /srv/s3-backup-copy" ssh-ed25519 AAAA… s3-backup
